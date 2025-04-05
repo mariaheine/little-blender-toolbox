@@ -7,4 +7,5 @@
 
 ## Current little tools:
 Accessible through the n-toolbar
-- Remove unused textures from project.
+- Remove unused materials from project.
+  - tip: mark materials that you want to keep regardles with `Fake User` chekcbox

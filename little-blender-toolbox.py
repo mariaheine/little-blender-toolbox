@@ -15,26 +15,28 @@ class LittleBlenderToolbox(bpy.types.Panel):
         layout.label(text="Hello there goblin/angel s?")
         
         row = layout.row()
-        row.operator("liltooly.remove_textures", text="Remove Unused Textures", icon='GHOST_DISABLED')
+        row.operator("liltooly.remove_unused_materials", text="Remove Unused Materials", icon='GHOST_DISABLED')
 
-class RemoveUnusedTextures(bpy.types.Operator):
-    bl_idname = "liltooly.remove_textures"
+class RemoveUnusedMaterials(bpy.types.Operator):
+    bl_idname = "liltooly.remove_unused_materials"
     bl_label = "Remove Unused Textures"
 
     # This is the core of the operator. It contains the code that runs when the operator is invoked. 
     # The return value should be {'FINISHED'} when the operation completes successfully. 
     # If there is an error, you can return {'CANCELLED'}.
     def execute(self, context):
-        export_gltf(context)
+        for mat in bpy.data.materials:
+            if mat.users == 0:
+                bpy.data.materials.remove(mat)
         return {'FINISHED'}
     
 def register():
     bpy.utils.register_class(LittleBlenderToolbox)
-    bpy.utils.register_class(RemoveUnusedTextures)
+    bpy.utils.register_class(RemoveUnusedMaterials)
 
 def unregister():
     bpy.utils.unregister_class(LittleBlenderToolbox)
-    bpy.utils.unregister_class(RemoveUnusedTextures)
+    bpy.utils.unregister_class(RemoveUnusedMaterials)
 
 if __name__ == "__main__":
     register()
